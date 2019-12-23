@@ -5,7 +5,7 @@
           <form @submit.prevent="submitHandler">
               <div class="input-field">
                   <input id="title" v-model="title" type="text" class="validate" required>
-                  <label for="title">Task Name</label>
+                  <label for="title">Title</label>
                   <span class="helper-text" data-error="Task name is required"></span>
               </div>
 
@@ -13,11 +13,11 @@
 
               <div class="input-field">
                   <textarea id="task-text" v-model="taskText" class="materialize-textarea"></textarea>
-                  <label for="task-text">Textarea</label>
+                  <label for="task-text">Description</label>
                   <span class="character-counter" style="float: right; font-size: 12px;">{{taskText.length}}/2048</span>
               </div>
 
-              <input type="text" ref="datepicker">
+              <input type="text" ref="datepicker" placeholder="Due date">
 
               <button class="btn" type="submit">Create task</button>
           </form>
@@ -39,14 +39,19 @@ export default {
 
     mounted() {
         this.chips = M.Chips.init(this.$refs.chips, {
-            placeholder: 'Type a task tag and press "Enter"',
+            placeholder: 'Type a tag and press "Enter"',
             //secondaryPlaceholder: 'Press Enter'
         });
-        this.date = M.Datepicker.init(this.$refs.datepicker, {
-            format: 'dd mmmm yyyy',
-            defaultDate: new Date(),
-            setDefaultDate: true
-        });
+        // this.date = M.Datepicker.init(this.$refs.datepicker, {
+        //     format: 'dd mmmm yyyy',
+        //     defaultDate: new Date(),
+        //     setDefaultDate: true
+        // });
+        this.date = M.Datepicker.init(this.$refs.datepicker)
+
+        setTimeout(() => { // fixes issue with placeholders and prepopulated inputs. Add to ad-project
+            M.updateTextFields()
+        }, 0);
     },
 
     methods: {
@@ -86,5 +91,8 @@ export default {
 <style scoped>
     #tagField .input{
         width: 300px !important;
+    }
+    textarea{
+        min-height: 150px;
     }
 </style>
